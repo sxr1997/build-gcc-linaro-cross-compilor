@@ -1,5 +1,19 @@
 # Build Cross-compilor gcc-linaro from Source（从源码编译gcc-linaro cross-compilor）
 
+## 前情提要
+
+因为工作上的需要，搞了一块正点原子imx6ull板子进行嵌入式Linux的学习。板子到的时候手上的windows PC刚好坏了，只有macbook可以用，当时比较无语。但自己做了一些调查之后，因为不需要IDE，所以感觉也没必要非要windows PC。然后就用macbook+虚拟机Ubuntu 22.04开始了学习。
+
+一路上虽然有一些问题，但是基本通过Google都解决了。但还是给自己挖下了一个不大不小的坑：Cross-complior的版本。
+
+官方推荐版本是4.9.4-2017.1，但这个版本没有现成的arm64版本的release，就用了最新版。一路上就是在编译U-boot的时候遇到一点问题，后来也解决了。到了编译Linux内核的时候，我就实在蚌埠住了。没想到高低版本差别那么大。但后来一想，gcc-linaro这玩意儿是OSS阿，那应该可以自己编译。
+
+于是查了一些资料，发现无论是中文还是英文资料都比较少，但也找到下面三篇质量比较高的资料，尤其是第三篇英文资料，基本是正确的，就是年代有点久远，一开始不太敢参考。剩下两篇中文资料在CSDN上，而且各有其错误之处。
+
+既然arm架构的机器越来越多，arm服务器似乎也是一个趋势，大概也会有人遇到相同的问题。所以就通过这篇文章做一个汇总记录，以供参考。
+
+这次获得的教训：一定要使用官方推荐的编译器版本。
+
 Ref1: <https://blog.csdn.net/ComputerInBook/article/details/105510452>
 
 Ref2: <https://blog.csdn.net/yangtze_1006/article/details/46740911>
@@ -174,6 +188,17 @@ sudo make install
 ```
 
 完成，可以使用以前编写的程序、u-boot和linux kernel试验一下。
+
+Linux内核编译完成后，可以在正点原子的imx6ull板子上试一下，可以看到：
+
+```text
+[    0.000000] Booting Linux on physical CPU 0x0                                                                                    
+[    0.000000] Linux version 4.1.15 (parallels@ubuntu-linux-22-04-desktop) (gcc version 4.9.4 (Linaro GCC 4.9-2017.01) ) #1 SMP PREEMPT Fri Jul 14 23:11:56 JST 2023                                                                                                    
+[    0.000000] CPU: ARMv7 Processor [410fc075] revision 5 (ARMv7), cr=10c53c7d                                                      
+[    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache 
+```
+
+表示成功进入内核，编译时间也没有问题，算是成功。
 
 ## Known issues
 
